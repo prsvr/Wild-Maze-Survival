@@ -6,8 +6,8 @@ public class Inventory : MonoBehaviour
 {
     public int slotsX, slotsY;
     public GUISkin skin;
-    public List<Item> inventory;   //玩家背包內的物品
-    public List<int> itemStack;   //物品格子內的堆疊數
+    public List<Item> inventory;   //背包內的所有格子
+    public List<int> itemStack;   //格子內的堆疊數
     public List<int> countLeft;   //物品剩餘的使用次數
     public ItemDatabase itemDatabase;
     bool showDetail;
@@ -22,7 +22,7 @@ public class Inventory : MonoBehaviour
     void Start ()
     {
         itemDatabase = FindObjectOfType<ItemDatabase>();
-        inventory = GlobalManager.Instance.inventory;   //取得玩家背包資料
+        inventory = GlobalManager.Instance.inventory;   //讀取玩家背包資料
         itemStack = GlobalManager.Instance.itemStack;
         countLeft = GlobalManager.Instance.countLeft;
 
