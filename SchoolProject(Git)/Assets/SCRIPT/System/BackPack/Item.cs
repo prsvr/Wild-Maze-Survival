@@ -11,6 +11,8 @@ public class Item
     public string itemDesc;
 }
 
+//三種物品類別繼承Item
+
 [System.Serializable]
 
 public class ConsumableItem : Item
