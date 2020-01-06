@@ -6,14 +6,14 @@ public class Inventory : MonoBehaviour
 {
     public int slotsX, slotsY;
     public GUISkin skin;
-    public List<Item> inventory;
-    public List<int> itemStack;
-    public List<int> countLeft;
+    public List<Item> inventory;   //玩家背包內的物品
+    public List<int> itemStack;   //物品格子內的堆疊數
+    public List<int> countLeft;   //物品剩餘的使用次數
     public ItemDatabase itemDatabase;
     bool showDetail;
-    Item selected;
-    Rect pos;
-    int index;
+    Item selected;   //玩家所點選的物品
+    Rect pos;   //玩家所選物品的畫面位置
+    int index;   //玩家所選物品的資料庫位址
 
     public Player_Vital player_vital;
     public GameObject flashlight;
@@ -22,7 +22,7 @@ public class Inventory : MonoBehaviour
     void Start ()
     {
         itemDatabase = FindObjectOfType<ItemDatabase>();
-        inventory = GlobalManager.Instance.inventory;
+        inventory = GlobalManager.Instance.inventory;   //取得玩家背包資料
         itemStack = GlobalManager.Instance.itemStack;
         countLeft = GlobalManager.Instance.countLeft;
 
@@ -31,7 +31,7 @@ public class Inventory : MonoBehaviour
 
     void OnDisable()
     {
-        GlobalManager.Instance.inventory = inventory;
+        GlobalManager.Instance.inventory = inventory;   //儲存玩家背包資料
     }
 
     void OnGUI ()
@@ -96,12 +96,12 @@ public class Inventory : MonoBehaviour
         ////////測試//////////
     }
 
-    public void DropSelected ()
+    public void DropSelected ()   //所選物品用完或是被丟掉
     {
         if (showDetail)
         {
             inventory[index] = new Item();
-            if (selected.itemName == "水瓶")
+            if (selected.itemName == "水瓶")   //水瓶喝完或倒掉之後會變成裝水器具
             {
                 inventory[index] = itemDatabase.items.Find(x => x.itemName == "空水瓶");
                 countLeft[index] = ((ToolItem)inventory[index]).count;
@@ -112,14 +112,14 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void AddItem (int id)
+    public void AddItem (int id)   //某物品被裝進背包
     {
         Item a = GlobalManager.Instance.itemDatabase.items.Find(x => x.itemID == id);
         List<Item> inv = GlobalManager.Instance.inventory;
         List<int> stk = GlobalManager.Instance.itemStack;
         List<int> clf = GlobalManager.Instance.countLeft;
 
-        if (a is MaterialItem)
+        if (a is MaterialItem)   //相同的材料可以堆疊
         {
             for (int i = 0; i < inv.Count; i++)
             {
@@ -149,7 +149,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void RemoveItem (string name, int qty)
+    public void RemoveItem (string name, int qty)   //消耗固定數量的某物品
     {
         List<Item> inv = GlobalManager.Instance.inventory;
         List<int> stk = GlobalManager.Instance.itemStack;
@@ -180,7 +180,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    void DrawInventory ()
+    void DrawInventory ()   //印出背包內的所有格子
     {
         int i = 0;
         for (int y = 0; y < slotsY; y++)
@@ -197,7 +197,7 @@ public class Inventory : MonoBehaviour
                         Rect stkRect = new Rect(slotRect.x + Screen.height * 0.05f, slotRect.y + Screen.height * 0.07f, slotRect.width * 0.5f, slotRect.height * 0.5f);
                         GUI.Label(stkRect, itemStack[i].ToString(), skin.GetStyle("stk"));
                     }
-                    if (slotRect.Contains(Event.current.mousePosition) && Input.GetMouseButton(0))
+                    if (slotRect.Contains(Event.current.mousePosition) && Input.GetMouseButton(0))   //當玩家點選其中一個格子時
                     {
                         selected = inventory[i];
                         pos = slotRect;
