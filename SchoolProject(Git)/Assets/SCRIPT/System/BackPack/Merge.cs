@@ -8,17 +8,17 @@ public class Merge : MonoBehaviour
     public GUISkin skin;
     public GameObject backpack;
     public Inventory inventory;
-    public List<Recipe> merge;
+    public List<Recipe> merge;   //合成頁面上的所有格子
     public RecipeDatabase recipeDatabase;
     bool showDetail;
-    Recipe selected;
+    Recipe selected;   //玩家所點選的合成物
     Rect pos;
     bool isSufficient;
 
     void Start ()
     {
         recipeDatabase = FindObjectOfType<RecipeDatabase>();
-        inventory = backpack.GetComponent<Inventory>();
+        inventory = backpack.GetComponent<Inventory>();   //讀取玩家的背包資料
         for (int i = 0; i < (slotsX * slotsY); i++)
         {
             merge.Add(new Recipe());
@@ -45,7 +45,7 @@ public class Merge : MonoBehaviour
         selected = new Recipe();
     }
 
-    public void MergeItem ()
+    public void MergeItem ()   //當玩家按下Merge鈕時
     {
         if (showDetail && isSufficient)
         {
@@ -58,7 +58,7 @@ public class Merge : MonoBehaviour
         }
     }
 
-    public void AddRecipe (int id)
+    public void AddRecipe (int id)   //新增某個合成物到合成頁面上
     {
         for (int i = 0; i < merge.Count; i++)
         {
@@ -71,7 +71,7 @@ public class Merge : MonoBehaviour
         
     }
 
-    void DrawMerge ()
+    void DrawMerge ()   //印出所有合成物的格子
     {
         int i = 0;
 
@@ -96,9 +96,8 @@ public class Merge : MonoBehaviour
         }
     }
 
-    void DrawIngredients ()
+    void DrawIngredients ()   //印出所選合成物的材料清單
     {
-        bool[] check = new bool[inventory.inventory.Count];
         int found;
         isSufficient = true;
 
@@ -107,15 +106,14 @@ public class Merge : MonoBehaviour
             found = 0;
             Rect slotRect = new Rect(Screen.width * 0.4f + i * Screen.width * 0.06f, Screen.height * 0.74f, Screen.height * 0.1f, Screen.height * 0.1f);
             GUI.Box(slotRect, "", skin.GetStyle("slot"));
-            for (int j = 0; j < inventory.inventory.Count; j++)
+            for (int j = 0; j < inventory.inventory.Count; j++)   //計算背包內該材料的數量
             {
-                if (inventory.inventory[j].itemName == selected.ingredients[i] && !check[j])
+                if (inventory.inventory[j].itemName == selected.ingredients[i])
                 {
                     found += inventory.itemStack[j];
-                    check[j] = true;
                 }
             }
-            if (found < selected.stack[i])
+            if (found < selected.stack[i])   //數量不足時將該材料顏色調淡
             {
                 GUI.color = new Color(255, 255, 255, 0.3f);
                 isSufficient = false;
