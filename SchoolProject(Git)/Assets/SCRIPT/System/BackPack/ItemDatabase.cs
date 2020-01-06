@@ -8,7 +8,7 @@ public class ItemDatabase : MonoBehaviour
 
     void Awake ()
     {
-        foreach (TextAsset f in Resources.LoadAll("Items/Consumable"))
+        foreach (TextAsset f in Resources.LoadAll("Items/Consumable"))   //一次將一個txt檔內的多個物品資料寫入資料庫
         {
             items.AddRange(JsonUtility.FromJson<jsonData>(f.text).c);
         }
@@ -22,7 +22,7 @@ public class ItemDatabase : MonoBehaviour
         }
     }
 
-    private class jsonData
+    private class jsonData   //txt檔內的陣列命名規則
     {
         public ConsumableItem[] c;
         public MaterialItem[] m;
