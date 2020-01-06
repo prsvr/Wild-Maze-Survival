@@ -10,7 +10,7 @@ public class Mission : MonoBehaviour
     public QuestDatabase questDatabase;
     Vector2 scroll;
     bool showDetail;
-    Quest selected;
+    Quest selected;   //玩家所點選的任務
 
     void Start ()
     {
@@ -44,7 +44,7 @@ public class Mission : MonoBehaviour
         GUI.EndScrollView();
     }
 
-    void DoWindow (int id)
+    void DoWindow (int id)   //印出所選任務的內容
     {
         GUI.Label(new Rect(Screen.width * 0.05f, Screen.height * 0.05f, Screen.width * 0.39f, 100), "Name :  " + selected.questName);
         GUI.Label(new Rect(Screen.width * 0.05f, Screen.height * 0.14f, Screen.width * 0.39f, 100), "Description :");
@@ -61,7 +61,7 @@ public class Mission : MonoBehaviour
         selected = new Quest();
     }
 
-    public void AddMission (int id)
+    public void AddMission (int id)   //新增任務到列表
     {
         missions.Add(questDatabase.quests.Find(x => x.questID == id));
         completed.Add(false);
