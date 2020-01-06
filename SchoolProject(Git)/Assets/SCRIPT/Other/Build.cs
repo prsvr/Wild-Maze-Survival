@@ -11,7 +11,7 @@ public class Build : MonoBehaviour
     public RecipeDatabase recipeDatabase;
     public GameObject objects;
     bool showDetail;
-    Recipe selected;
+    Recipe selected;   //玩家所點選的建築物
     bool isSufficient;
 
     void Awake ()
@@ -32,7 +32,7 @@ public class Build : MonoBehaviour
         }
     }
 
-    public void BuildSelected ()
+    public void BuildSelected ()   //當玩家按下Build鈕時
     {
         if (showDetail && isSufficient)
         {
@@ -55,7 +55,7 @@ public class Build : MonoBehaviour
         }
     }
 
-    public void Display (int id)
+    public void Display (int id)   //當玩家點選其中一個建築物
     {
         selected = recipeDatabase.recipes.Find(x => x.recipeID == id);
         showDetail = true;
@@ -67,7 +67,7 @@ public class Build : MonoBehaviour
         selected = new Recipe();
     }
 
-    void DrawIngredients ()
+    void DrawIngredients ()   //印出所選建築物的材料清單
     {
         bool[] check = new bool[inventory.Count];
         int found;
